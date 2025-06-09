@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import { TransactionProvider, useTransactions } from '@/contexts/TransactionCont
 import { Transaction } from '@/types/Transaction';
 import { ALL_CATEGORIES } from '@/constants/Categories';
 import { useTheme } from '@/contexts/ThemeContext';
+import { saveTransactions, loadTransactions } from '../utils/storage';
 
 function FilterModal({ 
   visible, 
@@ -169,7 +170,7 @@ function TransactionItem({ transaction, onEdit, onDelete }: {
 
 function TransactionsScreen() {
   const { theme } = useTheme();
-  const { transactions, getTotalBalance, getTotalIncome, getTotalExpenses, deleteTransaction, addTransaction, updateTransaction } = useTransactions();
+  const { transactions, getTotalBalance, getTotalIncome, getTotalExpenses, deleteTransaction, addTransaction, updateTransaction, setTransactions } = useTransactions();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -183,6 +184,19 @@ function TransactionsScreen() {
   const [amount, setAmount] = useState('');
   const [type, setType] = useState<'income' | 'expense'>('income');
   const [category, setCategory] = useState(ALL_CATEGORIES[0]?.name || '');
+
+  // Load transactions from storage on mount
+  useEffect(() => {
+    loadTransactions().then((loaded) => {
+      if (setTransactions) setTransactions(loaded);
+    });
+    // eslint-disable-next-line
+  }, []);
+
+  // Save transactions to storage whenever they change
+  useEffect(() => {
+    saveTransactions(transactions);
+  }, [transactions]);
 
   const balance = getTotalBalance();
   const income = getTotalIncome();
@@ -620,11 +634,12 @@ function createStyles(theme: any) {
     summaryLabel: {
       fontSize: 14,
       fontFamily: 'Inter-Medium',
-      color: theme.colors.textSecondary,
+      color: theme.colors.primary,
     },
     summaryAmount: {
       fontSize: 18,
       fontFamily: 'Inter-SemiBold',
+       color: theme.colors.primary,
     },
     activeFilters: {
       flexDirection: 'row',
