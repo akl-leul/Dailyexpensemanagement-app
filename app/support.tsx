@@ -74,7 +74,7 @@ export default function SupportScreen() {
   };
 
   const handleEmail = () => {
-    Linking.openURL('mailto:leul.ayfokru@example.com?subject=Expense Tracker Support').catch(() => {
+    Linking.openURL('mailto:layfokru@gmail.com?subject=Expense Tracker Support').catch(() => {
       Alert.alert('Error', 'Unable to open email client');
     });
   };
