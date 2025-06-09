@@ -10,8 +10,8 @@ import {
   Switch,
   Alert,
 } from 'react-native';
-import { User, Bell, Shield, Download, Upload, Trash2, CircleHelp as HelpCircle, ChevronRight, Moon, Phone, Mail } from 'lucide-react-native';
-import { TransactionProvider, useTransactions } from '@/contexts/TransactionContext';
+import { Bell, Shield, Download, Upload, Trash2, CircleHelp as HelpCircle, ChevronRight, Moon, Phone } from 'lucide-react-native';
+import { useTransactions } from '@/contexts/TransactionContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { router } from 'expo-router';
 
@@ -34,7 +34,7 @@ function SettingItem({
   const styles = createStyles(theme);
 
   return (
-    <TouchableOpacity style={styles.settingItem} onPress={onPress}>
+    <TouchableOpacity style={styles.settingItem} onPress={onPress} activeOpacity={onPress ? 0.7 : 1}>
       <View style={styles.settingLeft}>
         <View style={styles.settingIcon}>
           {icon}
@@ -54,7 +54,7 @@ function SettingItem({
 
 function SettingsScreen() {
   const { theme, isDark, toggleTheme } = useTheme();
-  const { transactions } = useTransactions();
+  const { transactions, clearAllTransactions } = useTransactions();
   const [notifications, setNotifications] = React.useState(true);
 
   const styles = createStyles(theme);
@@ -85,7 +85,8 @@ function SettingsScreen() {
           text: 'Delete All', 
           style: 'destructive',
           onPress: () => {
-            Alert.alert('Demo Mode', 'Data clearing is disabled in demo mode.');
+            clearAllTransactions();
+            Alert.alert('Success', 'All transactions have been deleted.');
           }
         },
       ]
@@ -218,13 +219,7 @@ function SettingsScreen() {
   );
 }
 
-export default function SettingsTab() {
-  return (
-    <TransactionProvider>
-      <SettingsScreen />
-    </TransactionProvider>
-  );
-}
+export default SettingsScreen;
 
 function createStyles(theme: any) {
   return StyleSheet.create({

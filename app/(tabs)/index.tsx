@@ -11,7 +11,7 @@ import {
   TextInput,
   Modal,
 } from 'react-native';
-import { Search, Filter, TrendingUp, TrendingDown, CreditCard as Edit, Trash2, X } from 'lucide-react-native';
+import { Search, Filter, TrendingUp, TrendingDown, CreditCard as Edit, Trash2, X, Plus, Check } from 'lucide-react-native';
 import { TransactionProvider, useTransactions } from '@/contexts/TransactionContext';
 import { Transaction } from '@/types/Transaction';
 import { ALL_CATEGORIES } from '@/constants/Categories';
@@ -33,7 +33,6 @@ function FilterModal({
   onTypeSelect: (type: 'all' | 'income' | 'expense') => void;
 }) {
   const { theme } = useTheme();
-
   const styles = createStyles(theme);
 
   return (
@@ -46,7 +45,6 @@ function FilterModal({
               <X size={24} color={theme.colors.text} />
             </TouchableOpacity>
           </View>
-
           <View style={styles.filterSection}>
             <Text style={styles.filterSectionTitle}>Transaction Type</Text>
             <View style={styles.typeFilters}>
@@ -69,7 +67,6 @@ function FilterModal({
               ))}
             </View>
           </View>
-
           <View style={styles.filterSection}>
             <Text style={styles.filterSectionTitle}>Category</Text>
             <TouchableOpacity
@@ -105,7 +102,6 @@ function FilterModal({
               </TouchableOpacity>
             ))}
           </View>
-
           <TouchableOpacity style={styles.clearFiltersButton} onPress={() => {
             onTypeSelect('all');
             onCategorySelect('all');
@@ -126,7 +122,6 @@ function TransactionItem({ transaction, onEdit, onDelete }: {
   const { theme } = useTheme();
   const category = ALL_CATEGORIES.find(cat => cat.name === transaction.category);
   const isExpense = transaction.type === 'expense';
-
   const styles = createStyles(theme);
 
   const handleDelete = () => {
@@ -174,11 +169,20 @@ function TransactionItem({ transaction, onEdit, onDelete }: {
 
 function TransactionsScreen() {
   const { theme } = useTheme();
-  const { transactions, getTotalBalance, getTotalIncome, getTotalExpenses, deleteTransaction } = useTransactions();
+  const { transactions, getTotalBalance, getTotalIncome, getTotalExpenses, deleteTransaction, addTransaction, updateTransaction } = useTransactions();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState<'all' | 'income' | 'expense'>('all');
+
+  // Add/Edit Transaction Modal State
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState<string | null>(null);
+  const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState('');
+  const [type, setType] = useState<'income' | 'expense'>('income');
+  const [category, setCategory] = useState(ALL_CATEGORIES[0]?.name || '');
 
   const balance = getTotalBalance();
   const income = getTotalIncome();
@@ -190,7 +194,6 @@ function TransactionsScreen() {
                            transaction.category.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesType = selectedType === 'all' || transaction.type === selectedType;
       const matchesCategory = selectedCategory === 'all' || transaction.category === selectedCategory;
-      
       return matchesSearch && matchesType && matchesCategory;
     });
   }, [transactions, searchQuery, selectedType, selectedCategory]);
@@ -198,11 +201,58 @@ function TransactionsScreen() {
   const styles = createStyles(theme);
 
   const handleEdit = (transaction: Transaction) => {
-    Alert.alert('Edit Transaction', 'Edit functionality would be implemented here');
+    setIsEditing(true);
+    setEditId(transaction.id);
+    setDescription(transaction.description);
+    setAmount(transaction.amount.toString());
+    setType(transaction.type);
+    setCategory(transaction.category);
+    setModalVisible(true);
   };
 
   const handleDelete = (id: string) => {
     deleteTransaction(id);
+  };
+
+  const handleAddOrEditTransaction = () => {
+    if (!description || !amount || isNaN(Number(amount))) {
+      Alert.alert('Error', 'Please enter valid description and amount.');
+      return;
+    }
+    if (isEditing && editId) {
+      updateTransaction(editId, {
+        description,
+        amount: Number(amount),
+        type,
+        category,
+        date: new Date().toISOString(),
+      });
+    } else {
+      addTransaction({
+        description,
+        amount: Number(amount),
+        type,
+        category,
+        date: new Date().toISOString(),
+      });
+    }
+    setModalVisible(false);
+    setIsEditing(false);
+    setEditId(null);
+    setDescription('');
+    setAmount('');
+    setType('income');
+    setCategory(ALL_CATEGORIES[0]?.name || '');
+  };
+
+  const handleOpenAddModal = () => {
+    setIsEditing(false);
+    setEditId(null);
+    setDescription('');
+    setAmount('');
+    setType('income');
+    setCategory(ALL_CATEGORIES[0]?.name || '');
+    setModalVisible(true);
   };
 
   return (
@@ -323,6 +373,125 @@ function TransactionsScreen() {
           </View>
         }
       />
+
+      {/* Add/Edit Transaction Button */}
+      <TouchableOpacity
+        style={{
+          position: 'absolute',
+          bottom: 32,
+          right: 32,
+          backgroundColor: theme.colors.primary,
+          borderRadius: 32,
+          width: 56,
+          height: 56,
+          justifyContent: 'center',
+          alignItems: 'center',
+          elevation: 6,
+        }}
+        onPress={handleOpenAddModal}
+      >
+        <Plus size={28} color="#fff" />
+      </TouchableOpacity>
+
+      {/* Add/Edit Transaction Modal */}
+      <Modal visible={modalVisible} animationType="slide" transparent>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ backgroundColor: theme.colors.surface, borderRadius: 16, padding: 24, width: '90%' }}>
+            <Text style={{ fontSize: 18, fontFamily: 'Inter-Bold', marginBottom: 16, color: theme.colors.text }}>
+              {isEditing ? 'Edit Transaction' : 'Add Transaction'}
+            </Text>
+            <TextInput
+              placeholder="Description"
+              value={description}
+              onChangeText={setDescription}
+              style={[styles.searchInput, { marginBottom: 12 }]}
+              placeholderTextColor={theme.colors.textTertiary}
+            />
+            <TextInput
+              placeholder="Amount"
+              value={amount}
+              onChangeText={setAmount}
+              keyboardType="numeric"
+              style={[styles.searchInput, { marginBottom: 12 }]}
+              placeholderTextColor={theme.colors.textTertiary}
+            />
+            <View style={{ flexDirection: 'row', marginBottom: 12 }}>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: type === 'income' ? theme.colors.primary : theme.colors.background,
+                  borderRadius: 8,
+                  padding: 12,
+                  marginRight: 6,
+                  alignItems: 'center',
+                }}
+                onPress={() => setType('income')}
+              >
+                <Text style={{ color: type === 'income' ? '#fff' : theme.colors.text }}>Income</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: type === 'expense' ? theme.colors.primary : theme.colors.background,
+                  borderRadius: 8,
+                  padding: 12,
+                  marginLeft: 6,
+                  alignItems: 'center',
+                }}
+                onPress={() => setType('expense')}
+              >
+                <Text style={{ color: type === 'expense' ? '#fff' : theme.colors.text }}>Expense</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ marginBottom: 16 }}>
+              <Text style={{ color: theme.colors.textSecondary, marginBottom: 4 }}>Category</Text>
+              <FlatList
+                data={ALL_CATEGORIES}
+                horizontal
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: category === item.name ? theme.colors.primary : theme.colors.background,
+                      borderRadius: 8,
+                      padding: 8,
+                      marginRight: 8,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                    onPress={() => setCategory(item.name)}
+                  >
+                    <Text style={{ fontSize: 16 }}>{item.icon}</Text>
+                    <Text style={{
+                      color: category === item.name ? '#fff' : theme.colors.text,
+                      marginLeft: 4,
+                    }}>{item.name}</Text>
+                  </TouchableOpacity>
+                )}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', gap: 12 }}>
+              <TouchableOpacity onPress={() => {
+                setModalVisible(false);
+                setIsEditing(false);
+                setEditId(null);
+                setDescription('');
+                setAmount('');
+                setType('income');
+                setCategory(ALL_CATEGORIES[0]?.name || '');
+              }}>
+                <Text style={{ color: theme.colors.error, fontFamily: 'Inter-Medium', fontSize: 16 }}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleAddOrEditTransaction}>
+                <Text style={{ color: theme.colors.primary, fontFamily: 'Inter-Bold', fontSize: 16 }}>
+                  {isEditing ? 'Save' : 'Add'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
       <FilterModal
         visible={filterModalVisible}

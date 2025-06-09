@@ -10,6 +10,7 @@ interface TransactionContextType {
   getTotalIncome: () => number;
   getTotalExpenses: () => number;
   getTransactionsByMonth: (month: number, year: number) => Transaction[];
+  clearAllTransactions: () => void; // <-- Add this line
 }
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
@@ -17,57 +18,18 @@ const TransactionContext = createContext<TransactionContextType | undefined>(und
 export function TransactionProvider({ children }: { children: React.ReactNode }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  // Initialize with sample data
+  // Load transactions from localStorage on mount
   useEffect(() => {
-    const sampleTransactions: Transaction[] = [
-      {
-        id: '1',
-        amount: 2500,
-        type: 'income',
-        category: 'Salary',
-        description: 'Monthly salary',
-        date: new Date().toISOString().split('T')[0],
-        createdAt: new Date(),
-      },
-      {
-        id: '2',
-        amount: 45,
-        type: 'expense',
-        category: 'Food & Dining',
-        description: 'Lunch at restaurant',
-        date: new Date().toISOString().split('T')[0],
-        createdAt: new Date(),
-      },
-      {
-        id: '3',
-        amount: 120,
-        type: 'expense',
-        category: 'Transportation',
-        description: 'Gas for car',
-        date: new Date(Date.now() - 86400000).toISOString().split('T')[0],
-        createdAt: new Date(Date.now() - 86400000),
-      },
-      {
-        id: '4',
-        amount: 500,
-        type: 'income',
-        category: 'Freelance',
-        description: 'Web development project',
-        date: new Date(Date.now() - 172800000).toISOString().split('T')[0],
-        createdAt: new Date(Date.now() - 172800000),
-      },
-      {
-        id: '5',
-        amount: 85,
-        type: 'expense',
-        category: 'Shopping',
-        description: 'Groceries',
-        date: new Date(Date.now() - 259200000).toISOString().split('T')[0],
-        createdAt: new Date(Date.now() - 259200000),
-      },
-    ];
-    setTransactions(sampleTransactions);
+    const stored = localStorage.getItem('transactions');
+    if (stored) {
+      setTransactions(JSON.parse(stored));
+    }
   }, []);
+
+  // Save transactions to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+  }, [transactions]);
 
   const addTransaction = (transactionData: Omit<Transaction, 'id' | 'createdAt'>) => {
     const newTransaction: Transaction = {
@@ -89,6 +51,8 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
   const deleteTransaction = (id: string) => {
     setTransactions(prev => prev.filter(transaction => transaction.id !== id));
   };
+
+  const clearAllTransactions = () => setTransactions([]); // <-- Add this function
 
   const getTotalBalance = () => {
     return transactions.reduce((total, transaction) => {
@@ -128,6 +92,7 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
         getTotalIncome,
         getTotalExpenses,
         getTransactionsByMonth,
+        clearAllTransactions, // <-- Add this to the context value
       }}
     >
       {children}
