@@ -86,12 +86,12 @@ npm run ios
 ```
 
 # Technology Stack
-- Framework: React Native or Flutter
-- Language: JavaScript/TypeScript or Dart
-- State Management: Redux / Provider / Hooks
-- Storage: SQLite / AsyncStorage / Shared Preferences
-- Charting: Victory Native / fl_chart
-- Design: React Native Paper / Custom Styles
+- Framework: React Native 
+- Language: TypeScript
+- State Management: Hooks
+- Storage:  AsyncStorage
+- Charting: Victory Native 
+- Design: Custom Styles
 
 # Structure
 ```bash
