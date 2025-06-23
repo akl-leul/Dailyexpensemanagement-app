@@ -41,9 +41,11 @@ Maintain financial discipline effortlessly.
 Add screenshots to a /screenshots folder and update the paths below.
 Dashboard	Add Transaction	Summary
 
-![alt text](src/assets/images/)
-![alt text](screenshots/add-transaction.png)
-![alt text](screenshots/summary.png)
+![Welcome Screen](assets/images/image1.PNG)
+![Dashboard Screen](assets/images/image2.PNG)
+![Transaction Adding Screen](assets/images/image3.PNG)
+![Analytics Screen](assets/images/image4.PNG)
+![Setting Screen](assets/images/image5.PNG)
 
 # Installation
 From source:
