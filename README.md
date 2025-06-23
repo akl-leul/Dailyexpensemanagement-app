@@ -1,7 +1,8 @@
 # Daily Expense Management App
 
 A simple and intuitive mobile app—Expenses—designed to empower users to monitor, categorize, and analyze their spending habits effortlessly.
-📌 Table of Contents
+
+## 📌 Table of Contents
 
 [Overview](#overview)
 
