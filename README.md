@@ -4,21 +4,21 @@ A simple and intuitive mobile app—Expenses—designed to empower users to moni
 
 ## 📌 Table of Contents
 
-[Overview](#overview)
+- [Overview](#overview)
 
-[Features](#features)
+- [Features](#features)
 
-[Screenshots](#screenshots)
+- [Screenshots](#screenshots)
 
-[Installation](#installation)
+- [Installation](#installation)
 
-[Usage](#usage)
+- [Usage](#usage)
 
-[Technology Stack](#technology-stack)
+- [Technology Stack](#technology-stack)
 
-[Structure](#structure) 
+- [Structure](#structure) 
 
-[License](#license)
+- [License](#license)
 
 
 # Overview
