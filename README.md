@@ -31,15 +31,16 @@ Maintain financial discipline effortlessly.
 
 
 # Features
-Add/Edit/Delete Transactions: Easily manage your financial entries.
-Categorization: Classify income and expenses into predefined or custom categories.
-History View: Browse daily, weekly, and monthly past records.
-Summary & Analytics: Visualize your finances with graphs and totals by period.
-Clear UI/UX: A clean, user-focused mobile interface for a seamless experience.
+- Add/Edit/Delete Transactions: Easily manage your financial entries.
+- Categorization: Classify income and expenses into predefined or custom categories.
+- History View: Browse daily, weekly, and monthly past records.
+- Summary & Analytics: Visualize your finances with graphs and totals by period.
+- Clear UI/UX: A clean, user-focused mobile interface for a seamless experience.
 
 # Screenshots
 Add screenshots to a /screenshots folder and update the paths below.
 Dashboard	Add Transaction	Summary
+
 ![alt text](screenshots/dashboard.png)
 ![alt text](screenshots/add-transaction.png)
 ![alt text](screenshots/summary.png)
