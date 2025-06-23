@@ -1,6 +1,6 @@
 {
-  "name": "bolt-expo-starter",
-  "main": "expo-router/entry",
+  "name": "DaEx",
+  "main": "daex",
   "version": "1.0.0",
   "private": true,
   "scripts": {
