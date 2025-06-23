@@ -61,6 +61,7 @@ cd Dailyexpensemanagement-app
 ```
 
 ## Switch to v1.0.0
+
 ```bash
 git checkout V1.0.0
 ```
