@@ -1,14 +1,22 @@
 Daily Expense Management App
 A simple and intuitive mobile app—Expenses—designed to empower users to monitor, categorize, and analyze their spending habits effortlessly.
 📌 Table of Contents
+
 [Overview](#overview)
+
 [Features](#features)
+
 [Screenshots](#screenshots)
-[Installation](#installations)
+
+[Installation](#installation)
+
 [Usage](#usage)
-[Technology Stack](#Technology-Stack)
-[Structure](#structures) 
-[License](#License)
+
+[Technology Stack](#technology-stack)
+
+[Structure](#structure) 
+
+[License](#license)
 
 
 # Overview
@@ -37,28 +45,27 @@ Dashboard	Add Transaction	Summary
 # Installation
 From source:
 Generated bash
-# Clone the repo
+## Clone the repo
 ```bash
 git clone https://github.com/akl-leul/Dailyexpensemanagement-app.git
 ```
-# Navigate to the project directory
+## Navigate to the project directory
 
 ```cd
 cd Dailyexpensemanagement-app
 ```
 
-# Switch to v1.0.0
+## Switch to v1.0.0
 git checkout V1.0.0
 
-# Install dependencies (choose one based on your framework)
+## Install dependencies (choose one based on your framework)
 
 ```bash
 npm install
 ```
 
-Use code with caution.
-Bash
-Usage
+
+# Usage
 For React Native:
 Generated bash
 # Launch on Android emulator/device
@@ -74,13 +81,14 @@ npm run ios
 ```
 
 # Technology Stack
-Framework: React Native or Flutter
-Language: JavaScript/TypeScript or Dart
-State Management: Redux / Provider / Hooks
-Storage: SQLite / AsyncStorage / Shared Preferences
-Charting: Victory Native / fl_chart
-Design: React Native Paper / Custom Styles
-Structure
+- Framework: React Native or Flutter
+- Language: JavaScript/TypeScript or Dart
+- State Management: Redux / Provider / Hooks
+- Storage: SQLite / AsyncStorage / Shared Preferences
+- Charting: Victory Native / fl_chart
+- Design: React Native Paper / Custom Styles
+
+# Structure
 ```bash
 Generated plaintext
 ├── src/
