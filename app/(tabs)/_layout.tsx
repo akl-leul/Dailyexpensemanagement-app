@@ -1,33 +1,35 @@
 import { Tabs } from 'expo-router';
-import { TrendingUp, Plus, ChartPie as PieChart, Settings } from 'lucide-react-native';
+import { useApp } from '@/context/AppContext';
+import { Chrome as Home, Plus, ChartBar as BarChart3, Settings } from 'lucide-react-native';
 
 export default function TabLayout() {
+  const { state } = useApp();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#10B981',
-        tabBarInactiveTintColor: '#6B7280',
         tabBarStyle: {
-          backgroundColor: '#FFFFFF',
-          borderTopWidth: 1,
-          borderTopColor: '#E5E7EB',
+          backgroundColor: state.theme.card,
+          borderTopColor: state.theme.border,
+          height: 88,
+          paddingBottom: 24,
           paddingTop: 8,
-          paddingBottom: 8,
-          height: 70,
         },
+        tabBarActiveTintColor: state.theme.primary,
+        tabBarInactiveTintColor: state.theme.textSecondary,
         tabBarLabelStyle: {
           fontFamily: 'Inter-Medium',
           fontSize: 12,
-          marginTop: 4,
         },
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Transactions',
+          title: 'Dashboard',
           tabBarIcon: ({ size, color }) => (
-            <TrendingUp size={size} color={color} />
+            <Home size={size} color={color} strokeWidth={2} />
           ),
         }}
       />
@@ -36,7 +38,7 @@ export default function TabLayout() {
         options={{
           title: 'Add',
           tabBarIcon: ({ size, color }) => (
-            <Plus size={size} color={color} />
+            <Plus size={size} color={color} strokeWidth={2} />
           ),
         }}
       />
@@ -45,7 +47,7 @@ export default function TabLayout() {
         options={{
           title: 'Analytics',
           tabBarIcon: ({ size, color }) => (
-            <PieChart size={size} color={color} />
+            <BarChart3 size={size} color={color} strokeWidth={2} />
           ),
         }}
       />
@@ -54,7 +56,7 @@ export default function TabLayout() {
         options={{
           title: 'Settings',
           tabBarIcon: ({ size, color }) => (
-            <Settings size={size} color={color} />
+            <Settings size={size} color={color} strokeWidth={2} />
           ),
         }}
       />
