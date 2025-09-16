@@ -165,7 +165,7 @@ export default function Dashboard() {
           <SearchBar
             value={searchQuery}
             onChangeText={setSearchQuery}
-            placeholder="Search by description, category, or amount..."
+            placeholder="Search..."
           />
           
           {filteredTransactions.length > 0 ? (
@@ -180,7 +180,7 @@ export default function Dashboard() {
               {!searchQuery && state.transactions.length > 10 && (
                 <View style={[styles.moreIndicator, { backgroundColor: state.theme.card, borderColor: state.theme.border }]}>
                   <Text style={[styles.moreText, { color: state.theme.textSecondary }]}>
-                    Showing 10 of {state.transactions.length} transactions
+                    Showing {state.transactions.length} transactions
                   </Text>
                   <Text style={[styles.moreSubtext, { color: state.theme.textSecondary }]}>
                     Use search to find specific transactions

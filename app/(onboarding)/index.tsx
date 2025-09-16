@@ -19,7 +19,7 @@ export default function WelcomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={['#3A86FF', '#4C9AFF']}
+        colors={['#3A86FF', '#8256fa', '#ff7220ff']}
         style={styles.gradient}
       >
         <View style={styles.content}>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   gradient: {
-    flex: 1,
+    flex: 3,
   },
   content: {
     flex: 1,
@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 21,
     fontFamily: 'Inter-SemiBold',
-    color: '#3A86FF',
+    color: '#ff5e00ff',
   },
 });

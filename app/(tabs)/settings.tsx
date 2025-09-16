@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,12 +9,14 @@ import {
   Switch,
   Linking,
   Platform,
+  Modal,
 } from 'react-native';
 import { useApp } from '@/context/AppContext';
 import { Moon, Sun, User, Github, Mail, Info, Bug } from 'lucide-react-native';
 
 export default function Settings() {
   const { state, dispatch, debugStorage } = useApp() as any;
+  const [showDeveloperModal, setShowDeveloperModal] = useState(false);
 
   const handleToggleTheme = () => {
     dispatch({ type: 'TOGGLE_THEME' });
@@ -41,21 +43,21 @@ export default function Settings() {
       debugStorage();
     }
   };
+ 
+const [showAppInfoModal, setShowAppInfoModal] = useState(false);
+
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: state.theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Text style={[styles.title, { color: state.theme.text }]}>
-            Settings
-          </Text>
+          <Text style={[styles.title, { color: state.theme.text }]}>Settings</Text>
         </View>
 
+        {/* Appearance Section */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: state.theme.text }]}>
-            Appearance
-          </Text>
-          
+          <Text style={[styles.sectionTitle, { color: state.theme.text }]}>Appearance</Text>
+
           <View style={[styles.settingItem, { backgroundColor: state.theme.card, borderColor: state.theme.border }]}>
             <View style={styles.settingLeft}>
               {state.isDarkMode ? (
@@ -64,9 +66,7 @@ export default function Settings() {
                 <Sun size={24} color={state.theme.text} strokeWidth={2} />
               )}
               <View style={styles.settingText}>
-                <Text style={[styles.settingTitle, { color: state.theme.text }]}>
-                  Dark Mode
-                </Text>
+                <Text style={[styles.settingTitle, { color: state.theme.text }]}>Dark Mode</Text>
                 <Text style={[styles.settingSubtitle, { color: state.theme.textSecondary }]}>
                   Switch between light and dark themes
                 </Text>
@@ -81,12 +81,10 @@ export default function Settings() {
           </View>
         </View>
 
-        {/* Debug Section - Remove in production */}
+        {/* Debug Section */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: state.theme.text }]}>
-            Debug (Development Only)
-          </Text>
-          
+          <Text style={[styles.sectionTitle, { color: state.theme.text }]}>Debug (Development Only)</Text>
+
           <TouchableOpacity
             style={[styles.settingItem, { backgroundColor: state.theme.card, borderColor: state.theme.border }]}
             onPress={handleDebugStorage}
@@ -94,9 +92,7 @@ export default function Settings() {
             <View style={styles.settingLeft}>
               <Bug size={24} color={state.theme.text} strokeWidth={2} />
               <View style={styles.settingText}>
-                <Text style={[styles.settingTitle, { color: state.theme.text }]}>
-                  Debug Storage
-                </Text>
+                <Text style={[styles.settingTitle, { color: state.theme.text }]}>Debug Storage</Text>
                 <Text style={[styles.settingSubtitle, { color: state.theme.textSecondary }]}>
                   Check console for storage data
                 </Text>
@@ -108,9 +104,7 @@ export default function Settings() {
             <View style={styles.settingLeft}>
               <Info size={24} color={state.theme.text} strokeWidth={2} />
               <View style={styles.settingText}>
-                <Text style={[styles.settingTitle, { color: state.theme.text }]}>
-                  Data Status
-                </Text>
+                <Text style={[styles.settingTitle, { color: state.theme.text }]}>Data Status</Text>
                 <Text style={[styles.settingSubtitle, { color: state.theme.textSecondary }]}>
                   Transactions: {state.transactions.length}
                 </Text>
@@ -119,31 +113,73 @@ export default function Settings() {
           </View>
         </View>
 
+        {/* About Developer Button */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: state.theme.text }]}>
-            About Developer
-          </Text>
-          
+          <Text style={[styles.sectionTitle, { color: state.theme.text }]}>About Developer</Text>
+          <TouchableOpacity
+            style={[styles.settingItem, { backgroundColor: state.theme.card, borderColor: state.theme.border }]}
+            onPress={() => setShowDeveloperModal(true)}
+          >
+            <View style={styles.settingLeft}>
+              <User size={24} color={state.theme.text} strokeWidth={2} />
+              <View style={styles.settingText}>
+                <Text style={[styles.settingTitle, { color: state.theme.text }]}>View Developer Info</Text>
+                <Text style={[styles.settingSubtitle, { color: state.theme.textSecondary }]}>
+                  Learn more about the creator
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        {/* App Info Section */}
+       <View style={styles.section}>
+  <Text style={[styles.sectionTitle, { color: state.theme.text }]}>App Information</Text>
+  <TouchableOpacity
+    style={[styles.settingItem, { backgroundColor: state.theme.card, borderColor: state.theme.border }]}
+    onPress={() => setShowAppInfoModal(true)}
+  >
+    <View style={styles.settingLeft}>
+      <Info size={24} color={state.theme.text} strokeWidth={2} />
+      <View style={styles.settingText}>
+        <Text style={[styles.settingTitle, { color: state.theme.text }]}>View App Info</Text>
+        <Text style={[styles.settingSubtitle, { color: state.theme.textSecondary }]}>
+          App name, version, and more
+        </Text>
+      </View>
+    </View>
+  </TouchableOpacity>
+</View>
+
+
+      </ScrollView>
+
+      {/* Modal for Developer Info */}
+      <Modal
+        visible={showDeveloperModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowDeveloperModal(false)}
+      >
+        <View style={[styles.modalOverlay, { backgroundColor: state.isDarkMode ? '#000000aa' : '#00000066' }]}>
           <View style={[styles.developerCard, { backgroundColor: state.theme.card, borderColor: state.theme.border }]}>
             <View style={styles.developerHeader}>
               <View style={[styles.avatarContainer, { backgroundColor: state.theme.primary + '20' }]}>
                 <User size={32} color={state.theme.primary} strokeWidth={2} />
               </View>
               <View style={styles.developerInfo}>
-                <Text style={[styles.developerName, { color: state.theme.text }]}>
-                  Leul Ayfokru
-                </Text>
+                <Text style={[styles.developerName, { color: state.theme.text }]}>Leul Ayfokru</Text>
                 <Text style={[styles.developerTitle, { color: state.theme.textSecondary }]}>
                   Full Stack Developer
                 </Text>
               </View>
             </View>
-            
+
             <Text style={[styles.developerBio, { color: state.theme.textSecondary }]}>
-              Full stack website and application developer with more than 3 years of experience 
+              Full stack website and application developer with more than 3 years of experience
               in creating beautiful and functional digital experiences.
             </Text>
-            
+
             <View style={styles.contactButtons}>
               <TouchableOpacity
                 style={[styles.contactButton, { backgroundColor: state.theme.primary }]}
@@ -152,7 +188,7 @@ export default function Settings() {
                 <Mail size={20} color="white" strokeWidth={2} />
                 <Text style={styles.contactButtonText}>Email</Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity
                 style={[styles.contactButton, { backgroundColor: state.theme.text }]}
                 onPress={handleGithubPress}
@@ -161,29 +197,66 @@ export default function Settings() {
                 <Text style={styles.contactButtonText}>GitHub</Text>
               </TouchableOpacity>
             </View>
-          </View>
-        </View>
 
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: state.theme.text }]}>
-            App Information
-          </Text>
-          
-          <View style={[styles.settingItem, { backgroundColor: state.theme.card, borderColor: state.theme.border }]}>
-            <View style={styles.settingLeft}>
-              <Info size={24} color={state.theme.text} strokeWidth={2} />
-              <View style={styles.settingText}>
-                <Text style={[styles.settingTitle, { color: state.theme.text }]}>
-                  Version
-                </Text>
-                <Text style={[styles.settingSubtitle, { color: state.theme.textSecondary }]}>
-                  ExpenseTracker v1.0.0
-                </Text>
-              </View>
-            </View>
+            <TouchableOpacity
+              onPress={() => setShowDeveloperModal(false)}
+              style={{
+                marginTop: 20,
+                alignSelf: 'center',
+                paddingVertical: 10,
+              }}
+            >
+              <Text style={{ color: state.theme.primary, fontSize: 16, fontFamily: 'Inter-Medium' }}>
+                Close
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
+      </Modal>
+
+      {/* Modal for Deveoper Info*/}
+<Modal
+  visible={showAppInfoModal}
+  transparent={true}
+  animationType="slide"
+  onRequestClose={() => setShowAppInfoModal(false)}
+>
+  <View style={[styles.modalOverlay, { backgroundColor: state.isDarkMode ? '#000000aa' : '#00000066' }]}>
+    <View style={[styles.developerCard, { backgroundColor: state.theme.card, borderColor: state.theme.border }]}>
+      <View style={styles.developerHeader}>
+        <View style={[styles.avatarContainer, { backgroundColor: state.theme.primary + '20' }]}>
+          <Info size={32} color={state.theme.primary} strokeWidth={2} />
+        </View>
+        <View style={styles.developerInfo}>
+          <Text style={[styles.developerName, { color: state.theme.text }]}>Expense Tracker</Text>
+          <Text style={[styles.developerTitle, { color: state.theme.textSecondary }]}>
+            App Version
+          </Text>
+        </View>
+      </View>
+
+      <Text style={[styles.developerBio, { color: state.theme.textSecondary }]}>
+        Version: <Text style={{ color: state.theme.text }}>v1.0.12</Text>{'\n'}
+        Platform: <Text style={{ color: state.theme.text }}>{Platform.OS}</Text>
+      </Text>
+
+      <TouchableOpacity
+        onPress={() => setShowAppInfoModal(false)}
+        style={{
+          marginTop: 20,
+          alignSelf: 'center',
+          paddingVertical: 10,
+        }}
+      >
+        <Text style={{ color: state.theme.primary, fontSize: 16, fontFamily: 'Inter-Medium' }}>
+          Close
+        </Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
+
+
     </SafeAreaView>
   );
 }
@@ -241,6 +314,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 16,
     borderWidth: 1,
+    margin: 24,
   },
   developerHeader: {
     flexDirection: 'row',
@@ -291,5 +365,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-SemiBold',
     color: 'white',
     marginLeft: 8,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
