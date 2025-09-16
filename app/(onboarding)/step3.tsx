@@ -5,10 +5,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  ImageBackground,
+  Dimensions,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ChartBar as BarChart3 } from 'lucide-react-native';
 import { useApp } from '@/context/AppContext';
+import { LinearGradient } from 'expo-linear-gradient';
+
+const { width, height } = Dimensions.get('window');
 
 export default function Step3() {
   const router = useRouter();
@@ -20,50 +25,61 @@ export default function Step3() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.iconContainer}>
-          <BarChart3 size={64} color="#06D6A0" strokeWidth={1.5} />
+    <ImageBackground
+      source={require('../../assets/images/img-3.jpg')} // Replace with your background image
+      style={{ width, height }}
+      resizeMode="cover"
+    >
+      <LinearGradient
+        colors={['transparent', 'rgba(0,0,0,0.7)', '#0062ffff']}
+        style={StyleSheet.absoluteFill}
+      />
+
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.content}>
+          <View style={styles.iconContainer}>
+            <BarChart3 size={64} color="#3A86FF" strokeWidth={1.5} />
+          </View>
+
+          <Text style={styles.title}>Analyze & Grow</Text>
+          <Text style={styles.description}>
+            Get insights into your financial habits with beautiful charts
+            and analytics. Make informed decisions to reach your goals.
+          </Text>
         </View>
-        
-        <Text style={styles.title}>Analyze & Grow</Text>
-        <Text style={styles.description}>
-          Get insights into your financial habits with beautiful charts
-          and analytics. Make informed decisions to reach your goals.
-        </Text>
-      </View>
-      
-      <View style={styles.navigation}>
-        <View style={styles.indicators}>
-          <View style={styles.indicator} />
-          <View style={styles.indicator} />
-          <View style={[styles.indicator, styles.indicatorActive]} />
+
+        <View style={styles.navigation}>
+          <View style={styles.indicators}>
+            <View style={styles.indicator} />
+            <View style={styles.indicator} />
+            <View style={[styles.indicator, styles.indicatorActive]} />
+          </View>
+
+          <View style={styles.buttonRow}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => router.back()}
+            >
+              <Text style={styles.backButtonText}>Back</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleGetStarted}
+            >
+              <Text style={styles.buttonText}>Get Started</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        
-        <View style={styles.buttonRow}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => router.back()}
-          >
-            <Text style={styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleGetStarted}
-          >
-            <Text style={styles.buttonText}>Get Started</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: '#F0F0F0',
+    justifyContent: 'space-between',
   },
   content: {
     flex: 1,
@@ -75,7 +91,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: 'rgba(6, 214, 160, 0.1)',
+    backgroundColor: '#3a85ff3b',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 32,
@@ -83,14 +99,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontFamily: 'Inter-Bold',
-    color: '#333333',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 16,
   },
   description: {
     fontSize: 16,
     fontFamily: 'Inter-Regular',
-    color: '#666666',
+    color: '#EEEEEE',
     textAlign: 'center',
     lineHeight: 24,
   },
@@ -121,28 +137,28 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: '#3A86FF',
+    borderColor: '#fff',
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 16,
     alignItems: 'center',
   },
   backButtonText: {
-    fontSize: 18,
+    fontSize: 21,
     fontFamily: 'Inter-SemiBold',
-    color: '#3A86FF',
+    color: '#fff',
   },
   button: {
     flex: 1,
-    backgroundColor: '#06D6A0',
+    backgroundColor: '#fff',
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 16,
     alignItems: 'center',
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 19,
     fontFamily: 'Inter-SemiBold',
-    color: 'white',
+    color: '#0062ffff',
   },
 });

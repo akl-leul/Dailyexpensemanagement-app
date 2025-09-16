@@ -125,8 +125,8 @@ export default function Dashboard() {
     <SafeAreaView style={[styles.container, { backgroundColor: state.theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Text style={[styles.greeting, { color: state.theme.text }]}>
-            Good morning!
+          <Text style={[styles.greeting, { color: state.theme.primary }]}>
+           Hello 👋, Welcome to DaEx
           </Text>
           <Text style={[styles.title, { color: state.theme.text }]}>
             Financial Overview
@@ -225,17 +225,17 @@ export default function Dashboard() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1, 
   },
   header: {
     paddingHorizontal: 24,
-    paddingTop: 20,
+    paddingTop: 52,
     paddingBottom: 24,
   },
   greeting: {
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
-    marginBottom: 4,
+    fontSize: 28,
+    fontFamily: 'Inter-semibold',
+    marginBottom: 16,
   },
   title: {
     fontSize: 28,

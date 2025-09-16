@@ -5,58 +5,74 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  ImageBackground,
+  Dimensions,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { CreditCard } from 'lucide-react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+
+const { width, height } = Dimensions.get('window');
 
 export default function Step2() {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.iconContainer}>
-          <CreditCard size={64} color="#FF4C4C" strokeWidth={1.5} />
+    <ImageBackground
+      source={require('../../assets/images/img-2.jpg')} // Replace with your actual image path
+      style={{ width, height }}
+      resizeMode="cover"
+    >
+      <LinearGradient
+        colors={['transparent', 'rgba(0,0,0,0.7)', '#4400ffff']}
+        style={StyleSheet.absoluteFill}
+      />
+
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.content}>
+          <View style={styles.iconContainer}>
+            <CreditCard size={64} color="#8256fa" strokeWidth={1.5} />
+          </View>
+
+          <Text style={styles.title}>Monitor Expenses</Text>
+          <Text style={styles.description}>
+            Keep tabs on where your money goes. Categorize expenses and
+            identify spending patterns to make better financial decisions.
+          </Text>
         </View>
-        
-        <Text style={styles.title}>Monitor Expenses</Text>
-        <Text style={styles.description}>
-          Keep tabs on where your money goes. Categorize expenses and
-          identify spending patterns to make better financial decisions.
-        </Text>
-      </View>
-      
-      <View style={styles.navigation}>
-        <View style={styles.indicators}>
-          <View style={styles.indicator} />
-          <View style={[styles.indicator, styles.indicatorActive]} />
-          <View style={styles.indicator} />
+
+        <View style={styles.navigation}>
+          <View style={styles.indicators}>
+            <View style={styles.indicator} />
+            <View style={[styles.indicator, styles.indicatorActive]} />
+            <View style={styles.indicator} />
+          </View>
+
+          <View style={styles.buttonRow}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => router.back()}
+            >
+              <Text style={styles.backButtonText}>Back</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => router.push('/(onboarding)/step3')}
+            >
+              <Text style={styles.buttonText}>Next</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        
-        <View style={styles.buttonRow}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => router.back()}
-          >
-            <Text style={styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => router.push('/(onboarding)/step3')}
-          >
-            <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: '#F0F0F0',
+    justifyContent: 'space-between',
   },
   content: {
     flex: 1,
@@ -68,7 +84,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: 'rgba(255, 76, 76, 0.1)',
+    backgroundColor: '#8256fa31',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 32,
@@ -76,14 +92,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontFamily: 'Inter-Bold',
-    color: '#333333',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 16,
   },
   description: {
     fontSize: 16,
     fontFamily: 'Inter-Regular',
-    color: '#666666',
+    color: '#EEEEEE',
     textAlign: 'center',
     lineHeight: 24,
   },
@@ -114,28 +130,28 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: '#3A86FF',
+    borderColor: '#fff',
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 16,
     alignItems: 'center',
   },
   backButtonText: {
-    fontSize: 18,
+    fontSize: 21,
     fontFamily: 'Inter-SemiBold',
-    color: '#3A86FF',
+    color: '#fff',
   },
   button: {
     flex: 1,
-    backgroundColor: '#3A86FF',
+    backgroundColor: '#fff',
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 16,
     alignItems: 'center',
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 21,
     fontFamily: 'Inter-SemiBold',
-    color: 'white',
+    color: '8256fa',
   },
 });

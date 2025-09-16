@@ -31,6 +31,8 @@ const lightTheme: Theme = {
   expense: '#FF4C4C',
   border: '#E0E0E0',
   card: '#FFFFFF',
+  git: '#6e40c9',
+
 };
 
 const darkTheme: Theme = {
@@ -43,6 +45,7 @@ const darkTheme: Theme = {
   expense: '#FF4C4C',
   border: '#333333',
   card: '#1E1E1E',
+  git: '#6e40c9',
 };
 
 const defaultCategories: Category[] = [

@@ -6,68 +6,64 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { TrendingUp } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+
+const { height, width } = Dimensions.get('window');
 
 export default function Step1() {
   const router = useRouter();
 
   return (
     <ImageBackground
-      source={require('../../assets/images/img-1.jpg')} // Replace with your image path
+      source={require('../../assets/images/img-1.jpg')}
+      style={{ width, height }}
       resizeMode="cover"
-      style={styles.background}
     >
       <LinearGradient
-        colors={['rgba(0,0,0,0.3)', 'rgba(0,0,0,0.7)', '#F0F0F0']}
-        style={styles.gradient}
-      >
-        <SafeAreaView style={styles.container}>
-          <View style={styles.content}>
-            <View style={styles.iconContainer}>
-              <TrendingUp size={64} color="#3A86FF" strokeWidth={1.5} />
-            </View>
+        colors={['transparent', 'rgba(0, 0, 0, 0.8)', '#ff5e00ff']}
+        style={[StyleSheet.absoluteFill]}
+      />
 
-            <Text style={styles.title}>Track Your Income</Text>
-            <Text style={styles.description}>
-              Easily add and categorize all your income sources. From salary to
-              freelance work, keep track of every dollar that comes in.
-            </Text>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.content}>
+          <View style={styles.iconContainer}>
+            <TrendingUp size={64} color="#ff5e00ff" strokeWidth={1.5} />
           </View>
 
-          <View style={styles.navigation}>
-            <View style={styles.indicators}>
-              <View style={[styles.indicator, styles.indicatorActive]} />
-              <View style={styles.indicator} />
-              <View style={styles.indicator} />
-            </View>
+          <Text style={styles.title}>Track Your Income</Text>
+          <Text style={styles.description}>
+            Easily add and categorize all your income sources. From salary to
+            freelance work, keep track of every dollar that comes in.
+          </Text>
+        </View>
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => router.push('/(onboarding)/step2')}
-            >
-              <Text style={styles.buttonText}>Next</Text>
-            </TouchableOpacity>
+        <View style={styles.navigation}>
+          <View style={styles.indicators}>
+            <View style={[styles.indicator, styles.indicatorActive]} />
+            <View style={styles.indicator} />
+            <View style={styles.indicator} />
           </View>
-        </SafeAreaView>
-      </LinearGradient>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => router.push('/(onboarding)/step2')}
+          >
+            <Text style={styles.buttonText}>Next</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
+  safeArea: {
     flex: 1,
-  },
-  gradient: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'space-between', 
   },
   content: {
     flex: 1,
@@ -79,7 +75,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: 'rgba(58, 134, 255, 0.1)',
+    backgroundColor: '#ff5e0028',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 32,
@@ -118,15 +114,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#3A86FF',
   },
   button: {
-    backgroundColor: '#3A86FF',
+    backgroundColor: '#fff',
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 16,
     alignItems: 'center',
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 21,
     fontFamily: 'Inter-SemiBold',
-    color: 'white',
+    color: '#ff5e00ff',
   },
 });
