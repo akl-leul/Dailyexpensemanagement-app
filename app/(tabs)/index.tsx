@@ -39,7 +39,7 @@ export default function Dashboard() {
 
   const filteredTransactions = useMemo(() => {
     if (!searchQuery.trim()) {
-      return state.transactions.slice(0, 10); // Show only first 10 for performance
+      return state.transactions.slice(0, 100000); // Show only first 10 for performance
     }
 
     const query = searchQuery.toLowerCase();

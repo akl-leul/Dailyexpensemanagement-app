@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Transaction } from '@/types';
 import { useApp } from '@/context/AppContext';
 import { formatCurrency, formatDate } from '@/utils/formatters';
-import { MoveVertical as MoreVertical } from 'lucide-react-native';
+import { EllipsisVertical } from 'lucide-react-native';
 import * as Icons from 'lucide-react-native';
 
 interface TransactionCardProps {
@@ -54,7 +54,7 @@ export default function TransactionCard({ transaction, onPress }: TransactionCar
           {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
         </Text>
         <View style={styles.actionIndicator}>
-          <MoreVertical size={16} color={state.theme.textSecondary} strokeWidth={2} />
+          <EllipsisVertical size={16} color={state.theme.textSecondary} strokeWidth={2} />
         </View>
       </View>
     </TouchableOpacity>
