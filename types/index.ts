@@ -30,4 +30,5 @@ export interface Theme {
   expense: string;
   border: string;
   card: string;
+  git: string;
 }
