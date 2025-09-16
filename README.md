@@ -40,9 +40,9 @@ Clear UI/UX: A clean, user-focused mobile interface for a seamless experience.
 # Screenshots
 Add screenshots to a /screenshots folder and update the paths below.
 Dashboard	Add Transaction	Summary
-![alt text](screenshots/dashboard.png)
-![alt text](screenshots/add-transaction.png)
-![alt text](screenshots/summary.png)
+![alt text](https://github.com/akl-leul/Dailyexpensemanagement-app/raw/V1.0.0/assets/images/image1.PNG)
+![alt text](https://github.com/akl-leul/Dailyexpensemanagement-app/raw/V1.0.0/assets/images/image2.PNG)
+![alt text](https://github.com/akl-leul/Dailyexpensemanagement-app/raw/V1.0.0/assets/images/image3.PNG)
 
 # Installation
 From source:
